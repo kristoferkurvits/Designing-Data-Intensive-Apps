@@ -61,3 +61,33 @@ Keeping maintainability in mind reduces future blockers and bottlenecks. There a
 - *Evolvability/Modifiability* - Make it easy for engineers to make changes to the system in the future
 
 Set up proper monitoring, keep software up to date, write documentation. Good abstractions can help reduce complexity.
+---
+# 2. Data Models & Query Languages
+---
+**SQL and the Relational Model**:
+  - Suited for structured data with a fixed schema.
+  - Emphasizes data integrity and ACID (Atomicity, Consistency, Isolation, Durability) transactions.
+  - SQL is a declarative language, specifying what data is needed without detailing how to fetch it, contrasting with the imperative approach that required detailing each step of the data access process.
+  - Often experiences impedance mismatch with object-oriented programming, due to the difference in data representation.
+  - Normalization is key in relational databases to avoid data duplication but can impact query performance due to the need for joins.
+
+**NoSQL and Non-Relational Models**:
+  - Ideal for semi-structured or unstructured data with dynamic schemas.
+  - Emerged due to demands for scalability, open-source solutions, and specialized queries not supported by SQL.
+  - Document databases (a type of NoSQL) are known for schema flexibility and often align better with the data structures used in applications.
+  - They typically store related data together for improved performance (due to data locality) but struggle with joins and complex many-to-many relationships.
+  - In document databases, accessing parts of large documents can be inefficient; it's recommended to keep documents small to avoid performance issues.
+
+**Polyglot Persistence**:
+  - The concept of using different data storage technologies in a single application, chosen based on varying needs of the application components.
+  - Addresses the limitations of a single database system by leveraging the strengths of various database models.
+
+**Data Denormalization**:
+  - Often used in NoSQL databases to improve read performance.
+  - Involves storing redundant copies of data, improves performance at the cost of data integrity and increased complexity in maintaining consistency.
+
+**Graph Databases**:
+  - Utilize nodes and edges to represent and store data.
+  - Each entity (node) and relationship (edge) carries its unique identifier and a set of key-value pairs (properties).
+  - Highly flexible and extensible, making them ideal for data with complex relationships and evolving schemas.
+
