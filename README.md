@@ -90,4 +90,59 @@ Set up proper monitoring, keep software up to date, write documentation. Good ab
   - Utilize nodes and edges to represent and store data.
   - Each entity (node) and relationship (edge) carries its unique identifier and a set of key-value pairs (properties).
   - Highly flexible and extensible, making them ideal for data with complex relationships and evolving schemas.
+---
+# 3. Storage and Retrieval
+---
+Storage is an important component of a software system. It is crucial to understand how storage works to make better decisions when working with.
+  - Different storage engines are optimized for different workloads. Storage engines are often optimized for either transactional workloads (frequent updates and reads, like in web applications) or analytics (complex queries, often reading large volumes of data)
+  - Important to understand how to optimize your storage engine based on applications needs
+  - Different storage engines have different scalability and fault tolerance mechanisms
 
+## Data Structures That Power Your Database
+- **Hash Indexes**:
+  - *Purpose*: Fast data access using a key.
+  - *How It Works*: Utilizes a hash function to calculate an index, determining where data is stored.
+  - *Use Case*: Optimal for scenarios requiring quick lookups of exact matches.
+
+- **SSTables (Sorted String Tables)**:
+  - *Purpose*: Efficiently store large volumes of data in a sorted order.
+  - *How It Works*: Data is organized in key-value pairs and sorted based on the key.
+  - *Use Case*: Beneficial for range queries and effective in merging data segments.
+
+- **LSM Trees (Log-Structured Merge-Trees)**:
+  - *Purpose*: Designed to manage high volumes of write operations.
+  - *How It Works*: New writes are initially stored in a memtable, then transferred to SSTables, which are periodically merged and compacted in the background.
+  - *Use Case*: Suitable for write-intensive applications, like logging systems.
+
+- **B-Trees**:
+  - *Purpose*: Ensure efficient management of sorted data for both read and write operations.
+  - *How It Works*: Data is structured in a balanced tree format, with sorted information within each node.
+  - *Use Case*: Widely used in database indexing due to effective performance in both reading and writing.
+
+- **Comparing B-Trees and LSM-Trees**:
+  - *B-Trees*: Generally offer faster read operations, making them suitable for balanced read/write workloads.
+  - *LSM-Trees*: Tend to be faster for write operations, advantageous in write-dominant scenarios.
+  - *Note*: Each has distinct performance and storage traits, necessitating selection based on specific application requirements.
+
+- **Other Indexing Structures**:
+  - Include various types such as multi-dimensional, full-text search, and fuzzy indexes.
+  - *Specializations*: Each type is tailored for specific query needs, like geospatial data, textual search queries, or handling data with potential inaccuracies.
+
+## Transaction Processing or Analytics?
+| Property               | Transaction processing systems (OLTP)       | Analytic systems (OLAP)                |
+|------------------------|---------------------------------------------|----------------------------------------|
+| Main read pattern      | Small number of records per query, fetched by key | Aggregate over large number of records |
+| Main write pattern     | Random-access, low-latency writes from user input | Bulk import (ETL) or event stream     |
+| Primarily used by      | End user/customer, via web application      | Internal analyst, for decision support |
+| What data represents   | Latest state of data (current point in time)| History of events that happened over time |
+| Dataset size           | Gigabytes to terabytes                      | Terabytes to petabytes                 |
+
+## Data Warehousing
+* Serves as a centralized repository for analyzing large datasets originated from multiple sources, often OLTP systems
+* Optimized for read-heavy, complex queries. Stores historical data for business intelligence.
+### Stars and Snowflakes: Schemas for Analytics
+- *Star Schema*: Fact table at the center of the schema. Each row represents an event. Columns are foreign key references to other tables (*dimension tables*)
+- *Snowflake Schema*: Variation of Star schema, dimension tables are further broken down intoo subdimensions
+Snowflake Schemas are more normalized than Star Schemas but are more complex and thus harder to query which makes Star Schemas more preferred
+
+## Column-Oriented Storage
