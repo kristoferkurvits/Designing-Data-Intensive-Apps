@@ -146,3 +146,30 @@ Storage is an important component of a software system. It is crucial to underst
 Snowflake Schemas are more normalized than Star Schemas but are more complex and thus harder to query which makes Star Schemas more preferred
 
 ## Column-Oriented Storage
+- *Purpose*: Optimized for efficiently querying large datasets, particularly in analytics and data warehousing.
+- *How It Works*: Data is stored by columns instead of rows, enabling efficient retrieval of specific attributes without needing to read entire records.
+- *Use Case*: Highly suitable for operations that require scanning large datasets for a limited number of columns, including various aggregation and analytical processes.
+
+### Column Compression
+- *Purpose*: Aims to decrease storage requirements and boost read performance.
+- *How It Works*: Employs compression algorithms, such as bitmap encoding, to take advantage of the repetition and pattern characteristics inherent within columnar data.
+- *Use Case*: Extremely useful in data warehouses that feature columns with repetitive or predictable data patterns, improving query performance and reducing disk input/output operations.
+
+### Sort Order in Column Storage
+- *Purpose*: Improves query performance and the efficiency of data compression methods.
+- *How It Works*: Although data is sorted in a row-wise fashion, it is stored column-wise, which leads to strong compression, especially in primary sort columns.
+- *Use Case*: Advantageous for executing range queries and for analytical operations where sorting by particular keys (e.g., dates, categories) is a regular requirement.
+
+### Writing to Column-Oriented Storage
+- *Purpose*: Designed to handle updates and insertions of new data efficiently in columnar databases.
+- *How It Works*: Uses structures like LSM-trees, data is initially gathered in memory and subsequently merged into on-disk columnar files.
+- *Use Case*: Appropriate for environments where read operations are prioritized, and write operations can be accumulated and executed in batches.
+
+### Aggregation: Data Cubes and Materialized Views
+- *Purpose**: To expedite the execution of common aggregate queries.
+- *How It Works*:
+  - *Data Cubes*: Aggregate data is precalculated and stored in multi-dimensional structures, which leads to swift query responses.
+  - *Materialized Views*: Results from aggregate queries are persisted on disk, allowing quicker retrieval.
+- *Use Case*: Particularly effective for repetitive aggregate computations, commonly found in business intelligence and reporting workflows.
+
+
